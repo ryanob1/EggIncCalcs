@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boost Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: #ffffff;
+            text-align: center;
+            padding: 20px;
+        }
+        .boost { margin-bottom: 10px; }
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 400px;
+            margin: auto;
+            background: #1e1e1e;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        button {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #6200ea;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Boost Calculator</h2>
+        <p>Select up to 10 boosts and see the highest possible outcome.</p>
+        
+        <h3>Overall Multipliers (OM)</h3>
+        <div class="boost"><label for="sr10x">SR10x (+10 OM, Max 10): </label><input type="number" id="sr10x" min="0" max="10" value="0"></div>
+        <div class="boost"><label for="lb50x">LB50x (+50 OM, Max 10): </label><input type="number" id="lb50x" min="0" max="10" value="0"></div>
+        <div class="boost"><label for="bb2x">BB2x (+2 OM, Max 10): </label><input type="number" id="bb2x" min="0" max="10" value="0"></div>
+        
+        <h3>Money Multipliers 1 (MM1)</h3>
+        <div class="boost"><label for="jb50x">JB50x (+50 MM1, Max 10): </label><input type="number" id="jb50x" min="0" max="10" value="0"></div>
+        <div class="boost"><label for="jb10x">JB10x (+10 MM1, Max 10): </label><input type="number" id="jb10x" min="0" max="10" value="0"></div>
+        <div class="boost"><label for="jb3x">JB3x (+3 MM1, Max 10): </label><input type="number" id="jb3x" min="0" max="10" value="0"></div>
+        
+        <h3>Money Multipliers 2 (MM2)</h3>
+        <div class="boost"><label for="esb50x">ESB50x (+50 MM2, Max 10): </label><input type="number" id="esb50x" min="0" max="10" value="0"></div>
+        <div class="boost"><label for="esb5x">ESB5x (+5 MM2): </label><input type="number" id="esb5x" min="0" value="0"></div>
+        <div class="boost"><label for="lsb500x">LSB500x (+500 MM2, Max 10): </label><input type="number" id="lsb500x" min="0" max="10" value="0"></div>
+        
+        <button onclick="calculateMoney()">Calculate</button>
+        <button onclick="resetFields()">Reset</button>
+        <h3>Result: <span id="result">x0</span></h3>
+    </div>
+    
+    <script>
+        function calculateMoney() {
+            let om = 0;
+            let mm1 = 0;
+            let mm2 = 0;
+            let boostCount = 0;
+            
+            let sr10x = parseInt(document.getElementById("sr10x").value);
+            let lb50x = parseInt(document.getElementById("lb50x").value);
+            let bb2x = parseInt(document.getElementById("bb2x").value);
+            om += (sr10x * 10) + (lb50x * 50) + (bb2x * 2);
+            boostCount += sr10x + lb50x + bb2x;
+            
+            let jb50x = parseInt(document.getElementById("jb50x").value);
+            let jb10x = parseInt(document.getElementById("jb10x").value);
+            let jb3x = parseInt(document.getElementById("jb3x").value);
+            mm1 += (jb50x * 50) + (jb10x * 10) + (jb3x * 3);
+            boostCount += jb50x + jb10x + jb3x;
+            
+            let esb50x = parseInt(document.getElementById("esb50x").value);
+            let esb5x = parseInt(document.getElementById("esb5x").value);
+            let lsb500x = parseInt(document.getElementById("lsb500x").value);
+            mm2 += (esb50x * 50) + (esb5x * 5) + (lsb500x * 500);
+            boostCount += esb50x + esb5x + lsb500x;
+            
+            if (mm1 === 0 || mm2 === 0) {
+                document.getElementById("result").innerText = "x0";
+                return;
+            }
+            let finalMoney = om * mm1 * mm2;
+            document.getElementById("result").innerText = "x" + finalMoney.toLocaleString();
+        }
+        
+        function resetFields() {
+            document.querySelectorAll("input[type=number]").forEach(el => el.value = 0);
+            document.getElementById("result").innerText = "x0";
+        }
+    </script>
+</body>
+</html>
